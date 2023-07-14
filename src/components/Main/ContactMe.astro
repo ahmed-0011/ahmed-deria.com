@@ -1,0 +1,80 @@
+---
+---
+
+<section id="contact" class="py-16">
+    <div class="mx-auto max-w-5xl px-4 lg:px-0">
+        <h2 class="mb-4 border-b border-separator pb-1 text-center text-3xl font-semibold">Contact me</h2>
+        <form>
+            <div class="mx-auto flex flex-col gap-6 text-[#000] md:w-[75%]">
+                <input
+                    class="rounded-lg border border-black-200 p-3 focus:outline-none focus:outline-[3px] focus:outline-offset-1 focus:outline-primary"
+                    type="text"
+                    placeholder="Name"
+                    name="name"
+                    id="name"
+                />
+                <input
+                    class="rounded-lg border border-black-200 p-3 focus:outline-none focus:outline-[3px] focus:outline-offset-1 focus:outline-primary"
+                    id="email-address"
+                    type="email"
+                    placeholder="Email address"
+                    name="email"
+                />
+                <textarea
+                    class="rounded-lg border border-black-200 p-3 focus:outline-none focus:outline-[3px] focus:outline-offset-1 focus:outline-primary"
+                    placeholder="Your message here..."
+                    name="message"
+                    id="message"
+                    rows="10"></textarea>
+                <button
+                    class="mx-auto w-full rounded-lg bg-primary py-3 font-semibold text-[#fff] hover:bg-[#5078d2] focus:bg-[#5078d2] focus:outline-none focus:outline-[3px] focus:outline-offset-1 focus:outline-primary active:-translate-y-[2px] md:w-2/5"
+                    type="submit">Send</button
+                >
+            </div>
+        </form>
+    </div>
+</section>
+
+<script>
+    type EmailJSProps = {
+        service_id: string;
+        template_id: string;
+        user_id: string;
+        template_params: Record<string, FormDataEntryValue>;
+    };
+
+    const API_URL = "https://api.emailjs.com/api/v1.0/email/send";
+
+    async function sendEmail(data: EmailJSProps) {
+        const response = await fetch(API_URL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        });
+
+        if (!response.ok) {
+            throw new Error("Your message wasn't sent.");
+        }
+    }
+
+    document.querySelector("form")?.addEventListener("submit", e => {
+        e.preventDefault();
+
+        const formEl = e.currentTarget as HTMLFormElement;
+        const template_params = Object.fromEntries(new FormData(formEl).entries());
+
+        const data = {
+            service_id: "default_service",
+            template_id: "template_9bi7sac",
+            user_id: "nXD-DRiY1ghzFBeMP",
+            template_params
+        };
+
+        sendEmail(data).then(() => {
+            formEl.reset();
+            console.log("Success");
+        });
+    });
+</script>

@@ -1,0 +1,13 @@
+---
+interface Props {
+    name: string;
+    imageSrc: string;
+}
+
+const { name, imageSrc } = Astro.props as Props;
+---
+
+<div class="flex h-[100px] w-full items-center gap-6 rounded-md bg-white py-3 pl-3 shadow-sm md:w-[30%]">
+    <img class="max-h-full" src={imageSrc} alt={name} />
+    <span class="text-[1rem] font-semibold">{name}</span>
+</div>
